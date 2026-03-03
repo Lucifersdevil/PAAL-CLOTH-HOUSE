@@ -375,7 +375,7 @@
         async function loadOrders() {
             try {
                 const { data, error } = await supabase
-                    .from('orders')
+                    .from('public.orders')
                     .select('*')
                     .order('created_at', { ascending: false });
                 
