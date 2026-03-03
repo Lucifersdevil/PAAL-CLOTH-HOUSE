@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PAAL Admin - Orders & Products</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -345,7 +346,14 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
+        // Supabase Config
+        const SUPABASE_URL = 'https://tcdppthpvpqgeryfubeq.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRjZHBwdGhwdnBxZ2VyeWZ1YmVxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI1NzMwMDksImV4cCI6MjA4ODE0OTAwOX0.WcoYoytU3GfzW4mhQ3QNy7UH5nrPgFlJd_6vf67j83M';
+        
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
         // Products data
         const products = [
             { id: 7, name: "FROK", price: 499, stock: 50, image: "images/FROK.jpg" },
@@ -357,14 +365,35 @@
             { id: 13, name: "KURTA PAJAMA FOR BOYS", price: 1890, stock: 28, image: "images/KURTA PAJAMA FOR BOYS.jpg" }
         ];
 
-        let orders = JSON.parse(localStorage.getItem('paal_quotes') || '[]');
+        // Supabase Config
+        const SUPABASE_URL = 'https://tcdppthpvpqgeryfubeq.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRjZHBwdGhwdnBxZ2VyeWZ1YmVxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI1NzMwMDksImV4cCI6MjA4ODE0OTAwOX0.WcoYoytU3GfzW4mhQ3QNy7UH5nrPgFlJd_6vf67j83M';
+        
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        let orders = [];
+
+        async function loadOrders() {
+            try {
+                const { data, error } = await supabase
+                    .from('orders')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+                
+                if (error) throw error;
+                orders = data || [];
+            } catch (err) {
+                console.error('Error loading orders:', err);
+                // Fallback to localStorage
+                orders = JSON.parse(localStorage.getItem('paal_quotes') || '[]');
+            }
+        }
 
         function adminLogin() {
             const pwd = document.getElementById('adminPassword').value;
             if(pwd === 'PAAL2026') {
                 document.getElementById('loginScreen').classList.add('hidden');
                 document.getElementById('adminPanel').classList.remove('hidden');
-                loadAdminData();
+                loadOrders().then(() => loadAdminData());
             } else {
                 alert('Wrong password!');
             }
@@ -433,10 +462,29 @@
         }
 
         function viewOrder(orderId) {
-            const order = orders.find(o => o.quoteId === orderId);
-            if(!order) return;
+            const order = orders.find(o => o.quote_id === orderId);
+            if(!order) {
+                // Try localStorage format
+                const localOrders = JSON.parse(localStorage.getItem('paal_quotes') || '[]');
+                const localOrder = localOrders.find(o => o.quoteId === orderId);
+                if(!localOrder) return;
+                showOrderDetails(localOrder);
+                return;
+            }
+            showOrderDetails(order);
+        }
+
+        function showOrderDetails(order) {
+            let items = [];
+            try {
+                if (typeof order.items === 'string') {
+                    items = JSON.parse(order.items);
+                } else if (Array.isArray(order.items)) {
+                    items = order.items;
+                }
+            } catch(e) { items = []; }
             
-            let msg = `📋 Order: ${order.quoteId}\n`;
+            let msg = `📋 Order: ${order.quote_id || order.quoteId}\n`;
             msg += `👤 Name: ${order.name}\n`;
             msg += `📱 Phone: ${order.phone}\n`;
             msg += `📍 Address: ${order.address}\n`;
@@ -444,13 +492,15 @@
             msg += `💰 Total: ₹${order.total}\n\n`;
             msg += `📦 Items:\n`;
             
-            if(order.items) {
-                order.items.forEach(item => {
+            if(items.length > 0) {
+                items.forEach(item => {
                     msg += `- ${item.name} (${item.size || 'N/A'})${item.color ? ', ' + item.color : ''} - ₹${item.price}\n`;
                 });
+            } else {
+                msg += '(No items data)\n';
             }
             
-            msg += `\n📅 Date: ${new Date(order.date).toLocaleString()}`;
+            msg += `\n📅 Date: ${new Date(order.created_at || order.date).toLocaleString()}`;
             alert(msg);
         }
 

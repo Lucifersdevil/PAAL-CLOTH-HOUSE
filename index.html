@@ -902,7 +902,14 @@
         <a href="#"><span>👤</span>Account</a>
     </nav>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
+        // Supabase Config
+        const SUPABASE_URL = 'https://tcdppthpvpqgeryfubeq.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRjZHBwdGhwdnBxZ2VyeWZ1YmVxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI1NzMwMDksImV4cCI6MjA4ODE0OTAwOX0.WcoYoytU3GfzW4mhQ3QNy7UH5nrPgFlJd_6vf67j83M';
+        
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
         const products = [
             {
                 id: 7,
@@ -1116,10 +1123,9 @@
             document.getElementById('quoteOverlay').classList.remove('active');
         }
 
-        function submitQuote(e) {
+        async function submitQuote(e) {
             e.preventDefault();
             
-            // Debug - check form values
             const form = e.target;
             const name = form.name.value;
             const phone = form.phone.value;
@@ -1132,30 +1138,54 @@
             
             const quoteId = 'PCHQ' + Date.now().toString().slice(-8);
             const contactMethod = form.preferred_contact.value;
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
             
             const quoteData = {
-                quoteId, name, phone, address, preferred_contact: contactMethod,
-                message: form.message.value, items: cart,
-                total: cart.reduce((sum, item) => sum + item.price, 0),
-                date: new Date().toISOString()
+                quote_id: quoteId,
+                name: name,
+                phone: phone,
+                address: address,
+                preferred_contact: contactMethod,
+                message: form.message.value,
+                total: total,
+                status: 'pending',
+                items: JSON.stringify(cart)
             };
             
-            // Save to localStorage
-            const quotes = JSON.parse(localStorage.getItem('paal_quotes') || '[]');
-            quotes.push(quoteData);
-            localStorage.setItem('paal_quotes', JSON.stringify(quotes));
-            
-            alert('Quote Submitted! Quote ID: ' + quoteId);
-            
-            document.getElementById('quoteFormContainer').style.display = 'none';
-            document.getElementById('quoteIdDisplay').textContent = quoteId;
-            document.getElementById('contactMethod').textContent = contactMethod.toUpperCase();
-            document.getElementById('successCheck').classList.add('show');
-            
-            cart = [];
-            updateCart();
-            selectedSizes = {};
-            selectedColors = {};
+            try {
+                // Save to Supabase
+                const { data, error } = await supabase
+                    .from('orders')
+                    .insert([quoteData]);
+                
+                if (error) throw error;
+                
+                alert('Quote Submitted! Quote ID: ' + quoteId);
+                
+                // Also save to localStorage as backup
+                const localQuote = {
+                    quoteId, name, phone, address, preferred_contact: contactMethod,
+                    message: form.message.value, items: cart, total: total,
+                    date: new Date().toISOString()
+                };
+                const quotes = JSON.parse(localStorage.getItem('paal_quotes') || '[]');
+                quotes.push(localQuote);
+                localStorage.setItem('paal_quotes', JSON.stringify(quotes));
+                
+                document.getElementById('quoteFormContainer').style.display = 'none';
+                document.getElementById('quoteIdDisplay').textContent = quoteId;
+                document.getElementById('contactMethod').textContent = contactMethod.toUpperCase();
+                document.getElementById('successCheck').classList.add('show');
+                
+                cart = [];
+                updateCart();
+                selectedSizes = {};
+                selectedColors = {};
+                
+            } catch (err) {
+                console.error('Error:', err);
+                alert('Error saving order. Please try again.');
+            }
         }
 
         function renderSocialFeed() {
