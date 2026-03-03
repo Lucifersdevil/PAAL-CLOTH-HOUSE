@@ -1162,11 +1162,20 @@
                 
                 if (error) {
                     console.error('Supabase error:', error);
-                    alert('Error: ' + error.message);
-                    return;
+                } else {
+                    console.log('Saved to Supabase:', data);
                 }
                 
-                console.log('Saved successfully:', data);
+                // ALSO save to localStorage as backup
+                const localQuote = {
+                    quoteId, name, phone, address, preferred_contact: contactMethod,
+                    message: form.message.value, items: cart, total: total,
+                    date: new Date().toISOString()
+                };
+                const quotes = JSON.parse(localStorage.getItem('paal_quotes') || '[]');
+                quotes.push(localQuote);
+                localStorage.setItem('paal_quotes', JSON.stringify(quotes));
+                
                 alert('Quote Submitted! Quote ID: ' + quoteId);
                 
                 // Also save to localStorage as backup
