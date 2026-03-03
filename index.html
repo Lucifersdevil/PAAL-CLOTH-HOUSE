@@ -68,18 +68,19 @@
         }
 
         .marquee-header {
-            background: var(--theme-accent);
-            color: var(--theme-bg);
-            padding: 8px 0;
+            background: var(--off-white);
+            color: var(--maroon);
+            padding: 10px 0;
             overflow: hidden;
             white-space: nowrap;
+            border-bottom: 1px solid var(--cream);
         }
 
         .marquee-text {
             display: inline-block;
             font-family: 'Cerova', cursive;
-            font-size: 1rem;
-            animation: marquee 20s linear infinite;
+            font-size: 1.1rem;
+            animation: marquee 15s linear infinite;
             padding-left: 100%;
         }
 
@@ -756,9 +757,6 @@
     <div class="bg-text bottom">CLOTH</div>
 
     <header>
-        <div class="marquee-header">
-            <div class="marquee-text">✨ FRESH AND TRENDING ARTICLES FOR YOUR LOVED ONES! ✨ FREE SHIPPING ON ORDERS ABOVE ₹999 ✨</div>
-        </div>
         <div class="logo">PAAL</div>
         <nav>
             <a href="#">Home</a>
@@ -771,6 +769,10 @@
             <span class="cart-count" id="cartCount">0</span>
         </div>
     </header>
+
+    <div class="marquee-header">
+        <div class="marquee-text">✨ FRESH AND TRENDING ARTICLES FOR YOUR LOVED ONES! ✨ FREE SHIPPING ON ORDERS ABOVE ₹999 ✨</div>
+    </div>
 
     <section class="hero">
         <div class="hero-content">
