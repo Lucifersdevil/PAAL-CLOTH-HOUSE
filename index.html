@@ -326,6 +326,13 @@
             color: var(--terracotta);
         }
 
+        .product-description {
+            font-size: 0.75rem;
+            color: var(--taupe);
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
         .product-materials {
             font-size: 0.7rem;
             color: var(--taupe);
@@ -843,6 +850,7 @@
                 materials: "75% Cotton · 25% Polyester",
                 theme: "theme-maroon",
                 sizes: ["S", "M", "L", "XL", "XXL"],
+                description: "Premium oversized hoodie with heavyweight 400gsm fabric. Features YKK metal zipper and double-stitched seams for durability.",
                 hotspots: [
                     { x: 35, y: 35, text: "75% Premium Cotton\n400gsm", detail: "Premium cotton blend" },
                     { x: 60, y: 50, text: "YKK Metal Zipper", detail: "Japanese engineered" },
@@ -857,6 +865,7 @@
                 materials: "100% Technical Nylon",
                 theme: "theme-maroon",
                 sizes: ["S", "M", "L", "XL"],
+                description: "Utility-style cargo pants with water-resistant DWR coating. Features 6 pockets for everyday carry and adjustable cuffs.",
                 hotspots: [
                     { x: 40, y: 30, text: "Water Resistant", detail: "DWR Coating" },
                     { x: 70, y: 60, text: "6 Pockets", detail: "Multi-pocket design" }
@@ -871,6 +880,7 @@
                 theme: "theme-maroon",
                 sizes: ["S", "M", "L", "XL"],
                 colors: ["Sky Blue", "Maroon"],
+                description: "Comfortable everyday wear made from 100% organic cotton. Available in two classic colors.",
                 hotspots: [
                     { x: 50, y: 40, text: "Premium Cotton", detail: "100% organic" }
                 ]
@@ -883,6 +893,7 @@
                 materials: "100% Cotton",
                 theme: "theme-maroon",
                 sizes: ["S", "M", "L", "XL"],
+                description: "Classic maroon shirt paired with off-white jeans. Perfect for casual outings and everyday wear.",
                 hotspots: [
                     { x: 50, y: 40, text: "Premium Cotton", detail: "100% organic" }
                 ]
@@ -895,8 +906,23 @@
                 materials: "100% Cotton",
                 theme: "theme-maroon",
                 sizes: ["S", "M", "L", "XL"],
+                description: "Traditional ethnic wear for men. Perfect for festivals, weddings, and cultural events.",
                 hotspots: [
                     { x: 50, y: 40, text: "Traditional Wear", detail: "Festive collection" }
+                ]
+            },
+            {
+                id: 10,
+                name: "LENGA CHOLI",
+                price: 1950,
+                image: "images/unnamed (4).jpg",
+                materials: "Silk · Embroidery",
+                theme: "theme-maroon",
+                sizes: ["S", "M", "L", "XL"],
+                description: "Traditional festive wear for women with intricate embroidery and mirror work. Perfect for weddings and celebrations.",
+                hotspots: [
+                    { x: 50, y: 30, text: "Pure Silk", detail: "Luxurious fabric" },
+                    { x: 40, y: 60, text: "Mirror Work", detail: "Handcrafted details" }
                 ]
             }
         ];
@@ -920,6 +946,7 @@
                     <div class="product-info">
                         <div class="product-name">${product.name}</div>
                         <div class="product-price">₹${product.price}</div>
+                        <div class="product-description">${product.description || ''}</div>
                         <div class="product-materials">${product.materials}</div>
                         <div class="size-selector" id="sizes-${product.id}">
                             ${product.sizes.map(size => `<span class="size-pill" onclick="selectSize(${product.id}, '${size}', event)">${size}</span>`).join('')}
