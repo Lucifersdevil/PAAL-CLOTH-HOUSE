@@ -1100,7 +1100,10 @@
         }
 
         function showQuote() {
-            if (cart.length === 0) { showNotification('Your bag is empty!'); return; }
+            if (cart.length === 0) { 
+                alert('Your bag is empty! Add some products first.');
+                return; 
+            }
             toggleCart();
             document.getElementById('quoteModal').classList.add('active');
             document.getElementById('quoteOverlay').classList.add('active');
@@ -1115,32 +1118,44 @@
 
         function submitQuote(e) {
             e.preventDefault();
+            
+            // Debug - check form values
             const form = e.target;
+            const name = form.name.value;
+            const phone = form.phone.value;
+            const address = form.address.value;
+            
+            if(!name || !phone || !address) {
+                alert('Please fill all required fields!');
+                return;
+            }
+            
             const quoteId = 'PCHQ' + Date.now().toString().slice(-8);
             const contactMethod = form.preferred_contact.value;
             
             const quoteData = {
-                quoteId, name: form.name.value, phone: form.phone.value,
-                address: form.address.value, preferred_contact: contactMethod,
+                quoteId, name, phone, address, preferred_contact: contactMethod,
                 message: form.message.value, items: cart,
                 total: cart.reduce((sum, item) => sum + item.price, 0),
                 date: new Date().toISOString()
             };
             
+            // Save to localStorage
             const quotes = JSON.parse(localStorage.getItem('paal_quotes') || '[]');
             quotes.push(quoteData);
             localStorage.setItem('paal_quotes', JSON.stringify(quotes));
             
-            setTimeout(() => {
-                document.getElementById('quoteFormContainer').style.display = 'none';
-                document.getElementById('quoteIdDisplay').textContent = quoteId;
-                document.getElementById('contactMethod').textContent = contactMethod.toUpperCase();
-                document.getElementById('successCheck').classList.add('show');
-            }, 1000);
+            alert('Quote Submitted! Quote ID: ' + quoteId);
+            
+            document.getElementById('quoteFormContainer').style.display = 'none';
+            document.getElementById('quoteIdDisplay').textContent = quoteId;
+            document.getElementById('contactMethod').textContent = contactMethod.toUpperCase();
+            document.getElementById('successCheck').classList.add('show');
             
             cart = [];
             updateCart();
             selectedSizes = {};
+            selectedColors = {};
         }
 
         function renderSocialFeed() {
