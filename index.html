@@ -67,6 +67,27 @@
             letter-spacing: 8px;
         }
 
+        .marquee-header {
+            background: var(--theme-accent);
+            color: var(--theme-bg);
+            padding: 8px 0;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .marquee-text {
+            display: inline-block;
+            font-family: 'Cerova', cursive;
+            font-size: 1rem;
+            animation: marquee 20s linear infinite;
+            padding-left: 100%;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+
         nav { display: flex; gap: 40px; }
 
         nav a {
@@ -735,6 +756,9 @@
     <div class="bg-text bottom">CLOTH</div>
 
     <header>
+        <div class="marquee-header">
+            <div class="marquee-text">✨ FRESH AND TRENDING ARTICLES FOR YOUR LOVED ONES! ✨ FREE SHIPPING ON ORDERS ABOVE ₹999 ✨</div>
+        </div>
         <div class="logo">PAAL</div>
         <nav>
             <a href="#">Home</a>
