@@ -1157,7 +1157,7 @@
                 
                 // Save to Supabase
                 const { data, error } = await supabase
-                    .from('orders')
+                    .from('public.orders')
                     .insert([quoteData]);
                 
                 if (error) {
