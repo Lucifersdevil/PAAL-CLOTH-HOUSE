@@ -333,6 +333,13 @@
             line-height: 1.5;
         }
 
+        .size-available {
+            font-size: 0.7rem;
+            color: #2ecc71;
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
         .product-materials {
             font-size: 0.7rem;
             color: var(--taupe);
@@ -953,11 +960,12 @@
                             </div>
                         `).join('')}
                     </div>
-                    <div class="product-info">
+                        <div class="product-info">
                         <div class="product-name">${product.name}</div>
                         <div class="product-price">₹${product.price}</div>
                         <div class="product-description">${product.description || ''}</div>
                         <div class="product-materials">${product.materials}</div>
+                        <div class="size-available">✓ Available in all sizes</div>
                         <div class="size-selector" id="sizes-${product.id}">
                             ${product.sizes.map(size => `<span class="size-pill" onclick="selectSize(${product.id}, '${size}', event)">${size}</span>`).join('')}
                         </div>
