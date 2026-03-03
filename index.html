@@ -1153,13 +1153,20 @@
             };
             
             try {
+                console.log('Saving to Supabase...', quoteData);
+                
                 // Save to Supabase
                 const { data, error } = await supabase
                     .from('orders')
                     .insert([quoteData]);
                 
-                if (error) throw error;
+                if (error) {
+                    console.error('Supabase error:', error);
+                    alert('Error: ' + error.message);
+                    return;
+                }
                 
+                console.log('Saved successfully:', data);
                 alert('Quote Submitted! Quote ID: ' + quoteId);
                 
                 // Also save to localStorage as backup
