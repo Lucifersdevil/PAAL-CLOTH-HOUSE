@@ -340,6 +340,37 @@
             margin-top: 15px;
         }
 
+        .color-selector {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .color-pill {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .color-pill.skyblue { background: #87CEEB; }
+        .color-pill.maroon { background: #4D1A1A; }
+
+        .color-pill:hover { transform: scale(1.1); }
+
+        .color-pill.selected {
+            border-color: var(--theme-accent);
+            transform: scale(1.2);
+        }
+
+        .color-label {
+            font-size: 0.7rem;
+            color: var(--taupe);
+            margin-top: 5px;
+        }
+
         .size-pill {
             width: 44px;
             height: 44px;
@@ -887,6 +918,7 @@
                 materials: "100% Cotton",
                 theme: "theme-maroon",
                 sizes: ["S", "M", "L", "XL"],
+                colors: ["Sky Blue", "Maroon"],
                 hotspots: [
                     { x: 50, y: 40, text: "Premium Cotton", detail: "100% organic" }
                 ]
@@ -916,6 +948,12 @@
                         <div class="size-selector" id="sizes-${product.id}">
                             ${product.sizes.map(size => `<span class="size-pill" onclick="selectSize(${product.id}, '${size}', event)">${size}</span>`).join('')}
                         </div>
+                        ${product.colors ? `
+                        <div class="color-label">COLOR:</div>
+                        <div class="color-selector" id="colors-${product.id}">
+                            ${product.colors.map((color, i) => `<span class="color-pill ${color.toLowerCase().replace(' ', '')}" onclick="selectColor(${product.id}, '${color}', event)" title="${color}"></span>`).join('')}
+                        </div>
+                        ` : ''}
                         <button class="quote-btn" onclick="addToCart(${product.id}, event)">Get Quote</button>
                     </div>
                 </div>
@@ -936,16 +974,27 @@
             selectedSizes[productId] = size;
         }
 
+        let selectedColors = {};
+
+        function selectColor(productId, color, event) {
+            event.stopPropagation();
+            const container = document.getElementById(`colors-${productId}`);
+            container.querySelectorAll('.color-pill').forEach(p => p.classList.remove('selected'));
+            event.target.classList.add('selected');
+            selectedColors[productId] = color;
+        }
+
         function addToCart(productId, event) {
             event.stopPropagation();
             const product = products.find(p => p.id === productId);
             const size = selectedSizes[productId] || product.sizes[0];
-            cart.push({ ...product, size, cartId: Date.now() });
+            const color = selectedColors[productId] || (product.colors ? product.colors[0] : null);
+            cart.push({ ...product, size, color, cartId: Date.now() });
             updateCart();
             const cartIcon = document.querySelector('.cart-btn');
             cartIcon.classList.add('cart-bounce');
             setTimeout(() => cartIcon.classList.remove('cart-bounce'), 500);
-            showNotification(`${product.name} (${size}) added!`);
+            showNotification(`${product.name} (${size}${color ? ', ' + color : ''}) added!`);
         }
 
         function updateCart() {
@@ -959,7 +1008,7 @@
                         <img src="${item.image}" alt="${item.name}">
                         <div class="cart-item-info">
                             <h4>${item.name}</h4>
-                            <p>Size: ${item.size}</p>
+                            <p>Size: ${item.size}${item.color ? '<br>Color: ' + item.color : ''}</p>
                             <p>₹${item.price}</p>
                         </div>
                     </div>
