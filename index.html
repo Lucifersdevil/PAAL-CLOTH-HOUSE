@@ -469,7 +469,28 @@
         .product-price {
             font-size: 1.2rem;
             font-weight: 600;
-            color: var(--terracotta);
+            color: #4D1A1A;
+            margin-bottom: 10px;
+        }
+
+        .add-cart-btn {
+            background: #4D1A1A;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            width: 100%;
+            transition: all 0.3s;
+        }
+
+        .add-cart-btn:hover {
+            background: #6B2D2D;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(77, 26, 26, 0.3);
         }
 
         .product-description {
@@ -1139,7 +1160,7 @@
                 '<div class="product-info">' +
                 '<div class="product-name">' + product.name + '</div>' +
                 '<div class="product-price">Rs. ' + product.price + '</div>' +
-                '<button class="buy-btn" onclick="quickAddToCart(' + product.id + ', event)">Get Quote</button>' +
+                '<button class="add-cart-btn" onclick="quickAddToCart(' + product.id + ', event)">Add to Cart</button>' +
                 '</div></div>';
         }
 
