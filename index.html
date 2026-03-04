@@ -255,6 +255,77 @@
             gap: 40px;
         }
 
+        /* Search & Filter Styles */
+        .search-filter-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .search-bar input {
+            padding: 12px 20px;
+            border: 2px solid var(--cream);
+            border-radius: 30px;
+            width: 300px;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            transition: border-color 0.3s;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            border-color: var(--terracotta);
+        }
+
+        .category-filter select {
+            padding: 12px 20px;
+            border: 2px solid var(--cream);
+            border-radius: 30px;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            background: white;
+            cursor: pointer;
+        }
+
+        .tabs-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .tab-btn {
+            padding: 12px 30px;
+            border: 2px solid var(--terracotta);
+            background: transparent;
+            color: var(--terracotta);
+            font-size: 1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .tab-btn.active, .tab-btn:hover {
+            background: var(--terracotta);
+            color: white;
+        }
+
+        .new-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--terracotta);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 10;
+        }
+
         .product-card {
             background: var(--theme-bg);
             color: var(--theme-accent);
@@ -818,6 +889,28 @@
             <h2>THE COLLECTION</h2>
             <p>Click hotspots for details · Select size for custom quote</p>
         </div>
+        
+        <!-- Search & Filter -->
+        <div class="search-filter-container">
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Search products..." oninput="filterProducts()">
+            </div>
+            <div class="category-filter">
+                <select id="categoryFilter" onchange="filterProducts()">
+                    <option value="">All Categories</option>
+                    <option value="traditional">Traditional</option>
+                    <option value="casual">Casual</option>
+                    <option value="party">Party Wear</option>
+                </select>
+            </div>
+        </div>
+        
+        <!-- Tabs -->
+        <div class="tabs-container">
+            <button class="tab-btn active" onclick="showTab('all')">All</button>
+            <button class="tab-btn" onclick="showTab('new')">🆕 New Arrivals</button>
+        </div>
+        
         <div class="products-grid" id="productsGrid"></div>
     </section>
 
@@ -929,7 +1022,9 @@
                 theme: "theme-maroon",
                 sizes: ["S", "M", "L", "XL"],
                 colors: ["Sky Blue", "Maroon"],
-                description: "Comfortable everyday wear for kids. Made from 100% organic cotton. Available in two classic colors - Sky Blue and Maroon.",
+                description: "Comfortable everyday wear for kids. Made from 100% organic cotton.",
+                category: "casual",
+                isNew: true,
                 hotspots: [
                     { x: 50, y: 40, text: "Premium Cotton", detail: "100% organic" }
                 ]
@@ -942,7 +1037,9 @@
                 materials: "100% Cotton",
                 theme: "theme-maroon",
                 sizes: ["S", "M", "L", "XL"],
-                description: "Classic maroon shirt paired with off-white jeans. Perfect for casual outings and everyday wear for men.",
+                description: "Classic maroon shirt paired with off-white jeans.",
+                category: "casual",
+                isNew: false,
                 hotspots: [
                     { x: 50, y: 40, text: "Premium Cotton", detail: "100% organic" }
                 ]
@@ -955,7 +1052,9 @@
                 materials: "100% Cotton",
                 theme: "theme-maroon",
                 sizes: ["S", "M", "L", "XL"],
-                description: "Traditional ethnic wear for kids. Perfect for festivals, weddings, and cultural events.",
+                description: "Traditional ethnic wear for kids. Perfect for festivals and weddings.",
+                category: "traditional",
+                isNew: true,
                 hotspots: [
                     { x: 50, y: 40, text: "Traditional Wear", detail: "Festive collection" }
                 ]
@@ -968,7 +1067,9 @@
                 materials: "Silk · Embroidery",
                 theme: "theme-maroon",
                 sizes: ["S", "M", "L", "XL"],
-                description: "Traditional festive wear for kids girls with intricate embroidery and mirror work. Perfect for weddings and celebrations.",
+                description: "Traditional festive wear with intricate embroidery and mirror work.",
+                category: "traditional",
+                isNew: false,
                 hotspots: [
                     { x: 50, y: 30, text: "Pure Silk", detail: "Luxurious fabric" },
                     { x: 40, y: 60, text: "Mirror Work", detail: "Handcrafted details" }
@@ -982,23 +1083,23 @@
                 materials: "100% Cotton",
                 theme: "theme-maroon",
                 sizes: ["S", "M", "L", "XL"],
-                description: "Comfortable casual wear set for kids boys. Perfect for everyday play and casual outings.",
-                hotspots: [
-                    { x: 50, y: 40, text: "100% Cotton", detail: "Soft and breathable" }
-                ]
+                description: "Comfortable casual wear set for boys.",
+                category: "casual",
+                isNew: false,
+                hotspots: []
             },
             {
                 id: 12,
                 name: "GIRLS PARTY WEAR",
                 price: 2250,
                 image: "images/unnamed (6).jpg",
-                materials: "100% Cotton",
+                materials: "Silk · Net",
                 theme: "theme-maroon",
                 sizes: ["S", "M", "L", "XL"],
-                description: "Elegant party wear for kids girls. Perfect for birthdays, festivals, and special occasions.",
-                hotspots: [
-                    { x: 50, y: 40, text: "Premium Fabric", detail: "Comfortable" }
-                ]
+                description: "Elegant party wear for girls. Perfect for celebrations.",
+                category: "party",
+                isNew: true,
+                hotspots: []
             },
             {
                 id: 13,
@@ -1008,16 +1109,66 @@
                 materials: "100% Cotton",
                 theme: "theme-maroon",
                 sizes: ["S", "M", "L", "XL"],
-                description: "Traditional ethnic wear for kids boys. Perfect for festivals, weddings, and formal events.",
-                hotspots: [
-                    { x: 50, y: 40, text: "Premium Cotton", detail: "Comfortable fit" }
-                ]
+                description: "Traditional kurta pajama for boys. Perfect for festivals.",
+                category: "traditional",
+                isNew: false,
+                hotspots: []
             }
         ];
 
         let cart = [];
         let selectedSizes = {};
-        let currentTheme = 'theme-maroon';
+        let currentTab = 'all';
+
+        // Filter Products
+        function filterProducts() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const category = document.getElementById('categoryFilter').value;
+            
+            let filtered = products.filter(p => {
+                const matchesSearch = p.name.toLowerCase().includes(searchTerm);
+                const matchesCategory = !category || p.category === category;
+                return matchesSearch && matchesCategory;
+            });
+            
+            // Also filter by tab
+            if (currentTab === 'new') {
+                filtered = filtered.filter(p => p.isNew);
+            }
+            
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = filtered.map(product => createProductCard(product)).join('');
+        }
+
+        // Tab Switching
+        function showTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            filterProducts();
+        }
+
+        // Create Product Card HTML
+        function createProductCard(product) {
+            return `
+                <div class="product-card" onclick="viewProduct(${product.id})">
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}">
+                        ${product.hotspots ? product.hotspots.map((h, i) => `
+                            <div class="hotspot" style="left:${h.x}%;top:${h.y}%" onclick="event.stopPropagation()">
+                                <div class="hotspot-info">${h.text.replace('\n', '<br>')}</div>
+                            </div>
+                        `).join('') : ''}
+                        ${product.isNew ? '<span class="new-badge">🆕 NEW</span>' : ''}
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-price">₹${product.price}</div>
+                        <div class="size-available">✓ Available in all sizes</div>
+                    </div>
+                </div>
+            `;
+        }
 
         function renderProducts() {
             console.log('Products:', products);
@@ -1027,24 +1178,8 @@
                 alert('Grid not found!');
                 return;
             }
-            grid.innerHTML = products.map(product => `
-                <div class="product-card" onclick="viewProduct(${product.id})">
-                    <div class="product-image">
-                        <img src="${product.image}" alt="${product.name}">
-                        ${product.hotspots.map((h, i) => `
-                            <div class="hotspot" style="left:${h.x}%;top:${h.y}%" onclick="event.stopPropagation()">
-                                <div class="hotspot-info">${h.text.replace('\n', '<br>')}</div>
-                            </div>
-                        `).join('')}
-                    </div>
-                        <div class="product-info">
-                        <div class="product-name">${product.name}</div>
-                        <div class="product-price">₹${product.price}</div>
-                        <div class="product-description">${product.description || ''}</div>
-                        <div class="product-materials">${product.materials}</div>
-                        <div class="size-available">✓ Available in all sizes</div>
-                        <div class="size-selector" id="sizes-${product.id}">
-                            ${product.sizes.map(size => `<span class="size-pill" onclick="selectSize(${product.id}, '${size}', event)">${size}</span>`).join('')}
+            grid.innerHTML = products.map(product => createProductCard(product)).join('');
+        }
                         </div>
                         ${product.colors ? `
                         <div class="color-label">COLOR:</div>
