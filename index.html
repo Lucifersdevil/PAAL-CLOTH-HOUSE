@@ -1011,7 +1011,12 @@
         let currentTheme = 'theme-maroon';
 
         function renderProducts() {
+            console.log('Rendering products...', products);
             const grid = document.getElementById('productsGrid');
+            if (!grid) {
+                console.error('productsGrid not found!');
+                return;
+            }
             grid.innerHTML = products.map(product => `
                 <div class="product-card" onclick="viewProduct(${product.id})">
                     <div class="product-image">
