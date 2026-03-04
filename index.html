@@ -265,28 +265,34 @@
         }
 
         .search-bar input {
-            padding: 12px 20px;
-            border: 2px solid var(--cream);
-            border-radius: 30px;
+            padding: 15px 25px;
+            border: 2px solid var(--maroon);
+            border-radius: 50px;
             width: 300px;
-            font-size: 1rem;
-            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            font-family: 'Playfair Display', serif;
             transition: border-color 0.3s;
         }
 
         .search-bar input:focus {
             outline: none;
-            border-color: var(--terracotta);
+            border-color: var(--maroon);
+            box-shadow: 0 0 10px rgba(77, 26, 26, 0.2);
         }
 
         .category-filter select {
-            padding: 12px 20px;
-            border: 2px solid var(--cream);
-            border-radius: 30px;
-            font-size: 1rem;
-            font-family: 'Inter', sans-serif;
+            padding: 15px 25px;
+            border: 2px solid var(--maroon);
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-family: 'Playfair Display', serif;
             background: white;
             cursor: pointer;
+        }
+
+        .category-filter select:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(77, 26, 26, 0.2);
         }
 
         .tabs-container {
@@ -298,18 +304,18 @@
 
         .tab-btn {
             padding: 12px 30px;
-            border: 2px solid var(--terracotta);
+            border: 2px solid var(--maroon);
             background: transparent;
-            color: var(--terracotta);
-            font-size: 1rem;
+            color: var(--maroon);
+            font-size: 1.1rem;
             border-radius: 30px;
             cursor: pointer;
             transition: all 0.3s;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Playfair Display', serif;
         }
 
         .tab-btn.active, .tab-btn:hover {
-            background: var(--terracotta);
+            background: var(--maroon);
             color: white;
         }
 
@@ -327,7 +333,7 @@
         }
 
         .quote-btn {
-            background: var(--terracotta);
+            background: var(--maroon);
             color: white;
             border: none;
             padding: 15px 25px;
@@ -338,13 +344,13 @@
             font-weight: 600;
             width: 100%;
             margin-top: 15px;
-            transition: background 0.3s;
-            box-shadow: 0 4px 15px rgba(196, 112, 75, 0.3);
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(77, 26, 26, 0.3);
         }
 
         .quote-btn:hover {
-            background: #a85a3a;
-            box-shadow: 0 6px 20px rgba(196, 112, 75, 0.4);
+            background: #6B2D2D;
+            box-shadow: 0 6px 20px rgba(77, 26, 26, 0.4);
         }
 
         .product-card {
@@ -929,7 +935,7 @@
         <!-- Tabs -->
         <div class="tabs-container">
             <button class="tab-btn active" onclick="showTab('all')">All</button>
-            <button class="tab-btn" onclick="showTab('new')">🎀 New Arrivals</button>
+            <button class="tab-btn" onclick="showTab('new')">New Arrivals</button>
         </div>
         
         <div class="products-grid" id="productsGrid"></div>
