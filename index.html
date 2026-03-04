@@ -904,6 +904,12 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
+        // Global error handler
+        window.onerror = function(msg, url, line, col, error) {
+            console.error('JS Error:', msg, 'at line', line);
+            return false;
+        };
+        
         // Supabase Config
         const SUPABASE_URL = 'https://nmwuwihsoiksdwfxqgrw.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5td3V3aWhzb2lrc2R3ZnhxZ3J3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2MTQxNjQsImV4cCI6MjA4ODE5MDE2NH0.tHG7F19Ymjz3JOZLLUYEbEnHTrtNWOcdcWNYFqwL1Sk';
