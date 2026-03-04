@@ -908,7 +908,7 @@
         <!-- Tabs -->
         <div class="tabs-container">
             <button class="tab-btn active" onclick="showTab('all')">All</button>
-            <button class="tab-btn" onclick="showTab('new')">🆕 New Arrivals</button>
+            <button class="tab-btn" onclick="showTab('new')">🎀 New Arrivals</button>
         </div>
         
         <div class="products-grid" id="productsGrid"></div>
@@ -1159,7 +1159,7 @@
                                 <div class="hotspot-info">${h.text.replace('\n', '<br>')}</div>
                             </div>
                         `).join('') : ''}
-                        ${product.isNew ? '<span class="new-badge">🆕 NEW</span>' : ''}
+                        ${product.isNew ? '<span class="new-badge">🎀 NEW ARRIVAL</span>' : ''}
                     </div>
                     <div class="product-info">
                         <div class="product-name">${product.name}</div>
