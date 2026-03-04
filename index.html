@@ -1013,112 +1013,18 @@
         console.log('Script loaded!');
 
         var products = [
-            {
-                id: 7,
-                name: "FROK",
-                price: 499,
-                image: "images/FROK.jpg",
-                materials: "100% Cotton",
-                theme: "theme-maroon",
-                sizes: ["S", "M", "L", "XL"],
-                colors: ["Sky Blue", "Maroon"],
-                description: "Comfortable everyday wear for kids. Made from 100% organic cotton.",
-                category: "casual",
-                isNew: true,
-                hotspots: [
-                    { x: 50, y: 40, text: "Premium Cotton", detail: "100% organic" }
-                ]
-            },
-            {
-                id: 8,
-                name: "MAROON SHIRT WITH OFF WHITE JEANS",
-                price: 999,
-                image: "images/unnamed (2).jpg",
-                materials: "100% Cotton",
-                theme: "theme-maroon",
-                sizes: ["S", "M", "L", "XL"],
-                description: "Classic maroon shirt paired with off-white jeans.",
-                category: "casual",
-                isNew: false,
-                hotspots: [
-                    { x: 50, y: 40, text: "Premium Cotton", detail: "100% organic" }
-                ]
-            },
-            {
-                id: 9,
-                name: "DHOTI KURTA SET",
-                price: 1450,
-                image: "images/unnamed (3).jpg",
-                materials: "100% Cotton",
-                theme: "theme-maroon",
-                sizes: ["S", "M", "L", "XL"],
-                description: "Traditional ethnic wear for kids. Perfect for festivals and weddings.",
-                category: "traditional",
-                isNew: true,
-                hotspots: [
-                    { x: 50, y: 40, text: "Traditional Wear", detail: "Festive collection" }
-                ]
-            },
-            {
-                id: 10,
-                name: "LENGA CHOLI",
-                price: 1950,
-                image: "images/unnamed (4).jpg",
-                materials: "Silk · Embroidery",
-                theme: "theme-maroon",
-                sizes: ["S", "M", "L", "XL"],
-                description: "Traditional festive wear with intricate embroidery and mirror work.",
-                category: "traditional",
-                isNew: false,
-                hotspots: [
-                    { x: 50, y: 30, text: "Pure Silk", detail: "Luxurious fabric" },
-                    { x: 40, y: 60, text: "Mirror Work", detail: "Handcrafted details" }
-                ]
-            },
-            {
-                id: 11,
-                name: "CASUAL SET FOR BOYS",
-                price: 1690,
-                image: "images/unnamed (5).jpg",
-                materials: "100% Cotton",
-                theme: "theme-maroon",
-                sizes: ["S", "M", "L", "XL"],
-                description: "Comfortable casual wear set for boys.",
-                category: "casual",
-                isNew: false,
-                hotspots: []
-            },
-            {
-                id: 12,
-                name: "GIRLS PARTY WEAR",
-                price: 2250,
-                image: "images/unnamed (6).jpg",
-                materials: "Silk · Net",
-                theme: "theme-maroon",
-                sizes: ["S", "M", "L", "XL"],
-                description: "Elegant party wear for girls. Perfect for celebrations.",
-                category: "party",
-                isNew: true,
-                hotspots: []
-            },
-            {
-                id: 13,
-                name: "KURTA PAJAMA FOR BOYS",
-                price: 1890,
-                image: "images/KURTA PAJAMA FOR BOYS.jpg",
-                materials: "100% Cotton",
-                theme: "theme-maroon",
-                sizes: ["S", "M", "L", "XL"],
-                description: "Traditional kurta pajama for boys. Perfect for festivals.",
-                category: "traditional",
-                isNew: false,
-                hotspots: []
-            }
+            { id: 1, name: "FROK", price: 499, image: "images/FROK.jpg", category: "casual", isNew: true },
+            { id: 2, name: "MAROON SHIRT WITH OFF WHITE JEANS", price: 999, image: "images/MAROON SHIRT WITH OFF WHITE JEANS.jpg", category: "casual", isNew: false },
+            { id: 3, name: "DHOTI KURTA SET", price: 1450, image: "images/DHOTI KURTA SET .jpg", category: "traditional", isNew: true },
+            { id: 4, name: "LENGA CHOLI", price: 1950, image: "images/LENGA CHOLI.jpg", category: "traditional", isNew: false },
+            { id: 5, name: "CASUAL SET FOR BOYS", price: 1690, image: "images/CASUAL SET FOR BOYS .jpg", category: "casual", isNew: false },
+            { id: 6, name: "GIRLS PARTY WEAR", price: 2250, image: "images/GIRLS PARTY WEAR .jpg", category: "party", isNew: true },
+            { id: 7, name: "KURTA PAJAMA FOR BOYS", price: 1890, image: "images/KURTA PAJAMA FOR BOYS.jpg", category: "traditional", isNew: false }
         ];
 
-        let cart = [];
-        let selectedSizes = {};
-        let currentTab = 'all';
+        var cart = [];
+        var selectedSizes = {};
+        var currentTab = 'all';
 
         // Filter Products
         function filterProducts() {
