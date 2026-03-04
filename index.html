@@ -907,6 +907,7 @@
         // Global error handler
         window.onerror = function(msg, url, line, col, error) {
             console.error('JS Error:', msg, 'at line', line);
+            alert('JS Error: ' + msg);
             return false;
         };
         
@@ -915,6 +916,8 @@
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5td3V3aWhzb2lrc2R3ZnhxZ3J3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2MTQxNjQsImV4cCI6MjA4ODE5MDE2NH0.tHG7F19Ymjz3JOZLLUYEbEnHTrtNWOcdcWNYFqwL1Sk';
         
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        
+        console.log('Script loaded!');
 
         const products = [
             {
