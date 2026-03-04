@@ -344,24 +344,27 @@
         }
 
         .quote-btn {
+            width: 100%;
+            padding: 18px;
             background: var(--maroon);
             color: white;
-            border: none;
-            padding: 15px 25px;
-            border-radius: 50px;
-            cursor: pointer;
+            border: 2px solid var(--maroon);
             font-size: 1.1rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: pointer;
+            margin-top: 20px;
+            border-radius: 50px;
             font-family: 'Playfair Display', serif;
-            font-weight: 600;
-            width: 100%;
-            margin-top: 15px;
-            transition: all 0.3s;
+            font-weight: 700;
+            transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(77, 26, 26, 0.3);
         }
 
         .quote-btn:hover {
-            background: #6B2D2D;
-            box-shadow: 0 6px 20px rgba(77, 26, 26, 0.4);
+            background: var(--maroon-light);
+            box-shadow: 0 8px 20px rgba(77, 26, 26, 0.3);
+            transform: translateY(-2px);
         }
 
         .product-card {
