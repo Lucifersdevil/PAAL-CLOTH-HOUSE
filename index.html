@@ -1073,75 +1073,79 @@
             grid.innerHTML = html;
             console.log('Rendered ' + products.length + ' products');
         }
-                        </div>
-                        ${product.colors ? `
-                        <div class="color-label">COLOR:</div>
-                        <div class="color-selector" id="colors-${product.id}">
-                            ${product.colors.map((color, i) => `<span class="color-pill ${color.toLowerCase().replace(' ', '')}" onclick="selectColor(${product.id}, '${color}', event)" title="${color}"></span>`).join('')}
-                        </div>
-                        ` : ''}
-                        <button class="quote-btn" onclick="addToCart(${product.id}, event)">Get Quote</button>
-                    </div>
-                </div>
-            `).join('');
-        }
 
         function viewProduct(productId) {
-            // Theme stays permanent - Maroon & Off-White
+            // Product detail view
         }
 
         function selectSize(productId, size, event) {
             event.stopPropagation();
-            const container = document.getElementById(`sizes-${productId}`);
-            container.querySelectorAll('.size-pill').forEach(p => p.classList.remove('selected'));
-            const clicked = event.target;
-            clicked.classList.add('selected', 'squish');
-            setTimeout(() => clicked.classList.remove('squish'), 400);
+            var container = document.getElementById('sizes-' + productId);
+            if (!container) return;
+            var pills = container.querySelectorAll('.size-pill');
+            for (var i = 0; i < pills.length; i++) {
+                pills[i].classList.remove('selected');
+            }
+            event.target.classList.add('selected');
             selectedSizes[productId] = size;
         }
 
-        let selectedColors = {};
+        var selectedColors = {};
 
         function selectColor(productId, color, event) {
             event.stopPropagation();
-            const container = document.getElementById(`colors-${productId}`);
-            container.querySelectorAll('.color-pill').forEach(p => p.classList.remove('selected'));
+            var container = document.getElementById('colors-' + productId);
+            if (!container) return;
+            var pills = container.querySelectorAll('.color-pill');
+            for (var i = 0; i < pills.length; i++) {
+                pills[i].classList.remove('selected');
+            }
             event.target.classList.add('selected');
             selectedColors[productId] = color;
         }
 
         function addToCart(productId, event) {
             event.stopPropagation();
-            const product = products.find(p => p.id === productId);
-            const size = selectedSizes[productId] || product.sizes[0];
-            const color = selectedColors[productId] || (product.colors ? product.colors[0] : null);
-            cart.push({ ...product, size, color, cartId: Date.now() });
+            var product = null;
+            for (var i = 0; i < products.length; i++) {
+                if (products[i].id === productId) {
+                    product = products[i];
+                    break;
+                }
+            }
+            if (!product) return;
+            
+            var size = selectedSizes[productId] || 'M';
+            var color = selectedColors[productId] || null;
+            cart.push({ id: product.id, name: product.name, price: product.price, image: product.image, size: size, color: color, cartId: Date.now() });
             updateCart();
-            const cartIcon = document.querySelector('.cart-btn');
-            cartIcon.classList.add('cart-bounce');
-            setTimeout(() => cartIcon.classList.remove('cart-bounce'), 500);
-            showNotification(`${product.name} (${size}${color ? ', ' + color : ''}) added!`);
+            alert(product.name + ' added to cart!');
         }
 
         function updateCart() {
             document.getElementById('cartCount').textContent = cart.length;
-            const cartItems = document.getElementById('cartItems');
+            var cartItems = document.getElementById('cartItems');
             if (cart.length === 0) {
                 cartItems.innerHTML = '<p style="text-align:center;color:var(--taupe);padding:50px 0;">Your bag is empty</p>';
             } else {
-                cartItems.innerHTML = cart.map(item => `
-                    <div class="cart-item">
-                        <img src="${item.image}" alt="${item.name}">
-                        <div class="cart-item-info">
-                            <h4>${item.name}</h4>
-                            <p>Size: ${item.size}${item.color ? '<br>Color: ' + item.color : ''}</p>
-                            <p>₹${item.price}</p>
-                        </div>
-                    </div>
-                `).join('');
+                var cartHtml = '';
+                for (var i = 0; i < cart.length; i++) {
+                    var item = cart[i];
+                    cartHtml += '<div class="cart-item">' +
+                        '<img src="' + item.image + '" alt="' + item.name + '">' +
+                        '<div class="cart-item-info">' +
+                        '<h4>' + item.name + '</h4>' +
+                        '<p>Size: ' + item.size + (item.color ? '<br>Color: ' + item.color : '') + '</p>' +
+                        '<p>Rs.' + item.price + '</p>' +
+                        '</div></div>';
+                }
+                cartItems.innerHTML = cartHtml;
             }
-            const total = cart.reduce((sum, item) => sum + item.price, 0);
-            document.getElementById('cartTotal').textContent = `₹${total}`;
+            var total = 0;
+            for (var j = 0; j < cart.length; j++) {
+                total += cart[j].price;
+            }
+            document.getElementById('cartTotal').textContent = 'Rs.' + total;
         }
 
         function toggleCart() {
@@ -1214,34 +1218,36 @@
         }
 
         function renderSocialFeed() {
-            const grid = document.getElementById('socialGrid');
-            const socialPosts = [
+            var grid = document.getElementById('socialGrid');
+            var socialPosts = [
                 { handle: '@paal.cloth' }, { handle: '@paal.street' },
                 { handle: '@paal.vibes' }, { handle: '@paal.drops' }
             ];
-            grid.innerHTML = socialPosts.map((post, i) => `
-                <div class="social-card">
-                    <span>${post.handle}</span>
-                </div>
-            `).join('');
+            var html = '';
+            for (var i = 0; i < socialPosts.length; i++) {
+                html += '<div class="social-card"><span>' + socialPosts[i].handle + '</span></div>';
+            }
+            grid.innerHTML = html;
         }
 
         function showNotification(message) {
-            const notif = document.getElementById('notification');
+            var notif = document.getElementById('notification');
             notif.textContent = message;
             notif.classList.add('show');
-            setTimeout(() => notif.classList.remove('show'), 3000);
+            setTimeout(function() { notif.classList.remove('show'); }, 3000);
         }
 
         function checkAdmin() {
-            const pwd = prompt('Admin Password:');
+            var pwd = prompt('Admin Password:');
             if (pwd === 'PAAL2026') {
-                const quotes = JSON.parse(localStorage.getItem('paal_quotes') || '[]');
+                var quotes = JSON.parse(localStorage.getItem('paal_quotes') || '[]');
                 if (quotes.length === 0) { alert('No quotes yet!'); return; }
-                let msg = `TOTAL QUOTES: ${quotes.length}\n\n`;
-                quotes.slice(-5).reverse().forEach(q => {
-                    msg += `${q.quoteId} | ${q.name} | ₹${q.total}\n`;
-                });
+                var msg = 'TOTAL QUOTES: ' + quotes.length + '\n\n';
+                var recentQuotes = quotes.slice(-5).reverse();
+                for (var i = 0; i < recentQuotes.length; i++) {
+                    var q = recentQuotes[i];
+                    msg += q.quoteId + ' | ' + q.name + ' | Rs.' + q.total + '\n';
+                }
                 alert(msg);
             } else {
                 showNotification('Wrong password!');
