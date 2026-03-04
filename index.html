@@ -995,21 +995,6 @@
         <a href="#"><span>👤</span>Account</a>
     </nav>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        // Global error handler
-        window.onerror = function(msg, url, line, col, error) {
-            console.error('JS Error:', msg, 'at line', line);
-            alert('JS Error: ' + msg);
-            return false;
-        };
-        
-        // Supabase Config
-        const SUPABASE_URL = 'https://nmwuwihsoiksdwfxqgrw.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5td3V3aWhzb2lrc2R3ZnhxZ3J3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2MTQxNjQsImV4cCI6MjA4ODE5MDE2NH0.tHG7F19Ymjz3JOZLLUYEbEnHTrtNWOcdcWNYFqwL1Sk';
-        
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        
         console.log('Script loaded!');
 
         var products = [
@@ -1181,75 +1166,51 @@
             document.getElementById('quoteOverlay').classList.remove('active');
         }
 
-        async function submitQuote(e) {
+        function submitQuote(e) {
             e.preventDefault();
             
-            const form = e.target;
-            const name = form.name.value;
-            const phone = form.phone.value;
-            const address = form.address.value;
+            var form = e.target;
+            var name = form.name.value;
+            var phone = form.phone.value;
+            var address = form.address.value;
             
             if(!name || !phone || !address) {
                 alert('Please fill all required fields!');
                 return;
             }
             
-            const quoteId = 'PCHQ' + Date.now().toString().slice(-8);
-            const contactMethod = form.preferred_contact.value;
-            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            var quoteId = 'PCHQ' + Date.now().toString().slice(-8);
+            var contactMethod = form.preferred_contact.value;
+            var total = cart.reduce(function(sum, item) { return sum + item.price; }, 0);
             
-            const quoteData = {
-                quote_id: quoteId,
+            var quoteData = {
+                quoteId: quoteId,
                 name: name,
                 phone: phone,
                 address: address,
                 preferred_contact: contactMethod,
                 message: form.message.value,
+                items: cart,
                 total: total,
-                status: 'pending',
-                items: JSON.stringify(cart)
+                date: new Date().toISOString()
             };
             
-            try {
-                console.log('Saving to Supabase...', quoteData);
-                
-                // Save to Supabase
-                const { data, error } = await supabase
-                    .from('public.orders')
-                    .insert([quoteData]);
-                
-                if (error) {
-                    console.error('Supabase error:', error);
-                } else {
-                    console.log('Saved to Supabase:', data);
-                }
-                
-                // ALSO save to localStorage as backup
-                const localQuote = {
-                    quoteId, name, phone, address, preferred_contact: contactMethod,
-                    message: form.message.value, items: cart, total: total,
-                    date: new Date().toISOString()
-                };
-                const quotes = JSON.parse(localStorage.getItem('paal_quotes') || '[]');
-                quotes.push(localQuote);
-                localStorage.setItem('paal_quotes', JSON.stringify(quotes));
-                
-                alert('Quote Submitted! Quote ID: ' + quoteId);
-                
-                document.getElementById('quoteFormContainer').style.display = 'none';
-                document.getElementById('quoteIdDisplay').textContent = quoteId;
-                document.getElementById('contactMethod').textContent = contactMethod.toUpperCase();
-                document.getElementById('successCheck').classList.add('show');
-                
-                cart = [];
-                updateCart();
-                selectedSizes = {};
-                selectedColors = {};
-                
-            } catch (err) {
-                console.error('Error:', err);
-                alert('Error saving order. Please try again.');
-            }
+            // Save to localStorage
+            var quotes = JSON.parse(localStorage.getItem('paal_quotes') || '[]');
+            quotes.push(quoteData);
+            localStorage.setItem('paal_quotes', JSON.stringify(quotes));
+            
+            alert('Quote Submitted! Quote ID: ' + quoteId);
+            
+            document.getElementById('quoteFormContainer').style.display = 'none';
+            document.getElementById('quoteIdDisplay').textContent = quoteId;
+            document.getElementById('contactMethod').textContent = contactMethod.toUpperCase();
+            document.getElementById('successCheck').classList.add('show');
+            
+            cart = [];
+            updateCart();
+            selectedSizes = {};
+            selectedColors = {};
         }
 
         function renderSocialFeed() {

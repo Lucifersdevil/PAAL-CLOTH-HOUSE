@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PAAL Admin - Orders & Products</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -346,46 +345,23 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // Supabase Config
-        const SUPABASE_URL = 'https://nmwuwihsoiksdwfxqgrw.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5td3V3aWhzb2lrc2R3ZnhxZ3J3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2MTQxNjQsImV4cCI6MjA4ODE5MDE2NH0.tHG7F19Ymjz3JOZLLUYEbEnHTrtNWOcdcWNYFqwL1Sk';
-        
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
         // Products data
-        const products = [
-            { id: 7, name: "FROK", price: 499, stock: 50, image: "images/FROK.jpg" },
-            { id: 8, name: "MAROON SHIRT WITH OFF WHITE JEANS", price: 999, stock: 30, image: "images/unnamed (2).jpg" },
-            { id: 9, name: "DHOTI KURTA SET", price: 1450, stock: 25, image: "images/unnamed (3).jpg" },
-            { id: 10, name: "LENGA CHOLI", price: 1950, stock: 20, image: "images/unnamed (4).jpg" },
-            { id: 11, name: "CASUAL SET FOR BOYS", price: 1690, stock: 35, image: "images/unnamed (5).jpg" },
-            { id: 12, name: "GIRLS PARTY WEAR", price: 2250, stock: 15, image: "images/unnamed (6).jpg" },
-            { id: 13, name: "KURTA PAJAMA FOR BOYS", price: 1890, stock: 28, image: "images/KURTA PAJAMA FOR BOYS.jpg" }
+        var products = [
+            { id: 1, name: "FROK", price: 499, stock: 50, image: "images/FROK.jpg" },
+            { id: 2, name: "MAROON SHIRT WITH OFF WHITE JEANS", price: 999, stock: 30, image: "images/MAROON SHIRT WITH OFF WHITE JEANS.jpg" },
+            { id: 3, name: "DHOTI KURTA SET", price: 1450, stock: 25, image: "images/DHOTI KURTA SET .jpg" },
+            { id: 4, name: "LENGA CHOLI", price: 1950, stock: 20, image: "images/LENGA CHOLI.jpg" },
+            { id: 5, name: "CASUAL SET FOR BOYS", price: 1690, stock: 35, image: "images/CASUAL SET FOR BOYS .jpg" },
+            { id: 6, name: "GIRLS PARTY WEAR", price: 2250, stock: 15, image: "images/GIRLS PARTY WEAR .jpg" },
+            { id: 7, name: "KURTA PAJAMA FOR BOYS", price: 1890, stock: 28, image: "images/KURTA PAJAMA FOR BOYS.jpg" }
         ];
 
-        // Supabase Config - Admin
-        const SUPABASE_URL = 'https://nmwuwihsoiksdwfxqgrw.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5td3V3aWhzb2lrc2R3ZnhxZ3J3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2MTQxNjQsImV4cCI6MjA4ODE5MDE2NH0.tHG7F19Ymjz3JOZLLUYEbEnHTrtNWOcdcWNYFqwL1Sk';
-        
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        let orders = [];
+        var orders = [];
 
-        async function loadOrders() {
-            try {
-                const { data, error } = await supabase
-                    .from('public.orders')
-                    .select('*')
-                    .order('created_at', { ascending: false });
-                
-                if (error) throw error;
-                orders = data || [];
-            } catch (err) {
-                console.error('Error loading from Supabase:', err);
-                // Fallback to localStorage
-                orders = JSON.parse(localStorage.getItem('paal_quotes') || '[]');
-            }
+        function loadOrders() {
+            // Load from localStorage
+            orders = JSON.parse(localStorage.getItem('paal_quotes') || '[]');
         }
 
         function adminLogin() {
