@@ -1012,7 +1012,7 @@
         
         console.log('Script loaded!');
 
-        const products = [
+        var products = [
             {
                 id: 7,
                 name: "FROK",
@@ -1122,63 +1122,65 @@
 
         // Filter Products
         function filterProducts() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const category = document.getElementById('categoryFilter').value;
+            var searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            var category = document.getElementById('categoryFilter').value;
             
-            let filtered = products.filter(p => {
-                const matchesSearch = p.name.toLowerCase().includes(searchTerm);
-                const matchesCategory = !category || p.category === category;
+            var filtered = products.filter(function(p) {
+                var matchesSearch = p.name.toLowerCase().indexOf(searchTerm) > -1;
+                var matchesCategory = !category || p.category === category;
                 return matchesSearch && matchesCategory;
             });
             
             // Also filter by tab
             if (currentTab === 'new') {
-                filtered = filtered.filter(p => p.isNew);
+                filtered = filtered.filter(function(p) { return p.isNew; });
             }
             
-            const grid = document.getElementById('productsGrid');
-            grid.innerHTML = filtered.map(product => createProductCard(product)).join('');
+            var grid = document.getElementById('productsGrid');
+            var html = '';
+            for (var i = 0; i < filtered.length; i++) {
+                html += createProductCard(filtered[i]);
+            }
+            grid.innerHTML = html;
         }
 
         // Tab Switching
         function showTab(tab) {
             currentTab = tab;
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            var btns = document.querySelectorAll('.tab-btn');
+            for (var i = 0; i < btns.length; i++) {
+                btns[i].classList.remove('active');
+            }
             event.target.classList.add('active');
             filterProducts();
         }
 
         // Create Product Card HTML
         function createProductCard(product) {
-            return `
-                <div class="product-card" onclick="viewProduct(${product.id})">
-                    <div class="product-image">
-                        <img src="${product.image}" alt="${product.name}">
-                        ${product.hotspots ? product.hotspots.map((h, i) => `
-                            <div class="hotspot" style="left:${h.x}%;top:${h.y}%" onclick="event.stopPropagation()">
-                                <div class="hotspot-info">${h.text.replace('\n', '<br>')}</div>
-                            </div>
-                        `).join('') : ''}
-                        ${product.isNew ? '<span class="new-badge">🎀 NEW ARRIVAL</span>' : ''}
-                    </div>
-                    <div class="product-info">
-                        <div class="product-name">${product.name}</div>
-                        <div class="product-price">₹${product.price}</div>
-                        <div class="size-available">✓ Available in all sizes</div>
-                    </div>
-                </div>
-            `;
+            var newBadge = product.isNew ? '<span class="new-badge">NEW</span>' : '';
+            return '<div class="product-card" onclick="viewProduct(' + product.id + ')">' +
+                '<div class="product-image">' +
+                '<img src="' + product.image + '" alt="' + product.name + '">' +
+                newBadge +
+                '</div>' +
+                '<div class="product-info">' +
+                '<div class="product-name">' + product.name + '</div>' +
+                '<div class="product-price">Rs. ' + product.price + '</div>' +
+                '</div></div>';
         }
 
         function renderProducts() {
-            console.log('Products:', products);
-            const grid = document.getElementById('productsGrid');
+            var grid = document.getElementById('productsGrid');
             if (!grid) {
-                console.error('productsGrid not found!');
-                alert('Grid not found!');
+                alert('productsGrid not found! ' + document.readyState);
                 return;
             }
-            grid.innerHTML = products.map(product => createProductCard(product)).join('');
+            var html = '';
+            for (var i = 0; i < products.length; i++) {
+                html += createProductCard(products[i]);
+            }
+            grid.innerHTML = html;
+            console.log('Rendered ' + products.length + ' products');
         }
                         </div>
                         ${product.colors ? `
