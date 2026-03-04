@@ -326,7 +326,7 @@
             z-index: 10;
         }
 
-        .buy-btn {
+        .quote-btn {
             background: var(--terracotta);
             color: white;
             border: none;
@@ -1081,7 +1081,7 @@
                 '<div class="product-info">' +
                 '<div class="product-name">' + product.name + '</div>' +
                 '<div class="product-price">Rs. ' + product.price + '</div>' +
-                '<button class="buy-btn" onclick="quickAddToCart(' + product.id + ', event)">Buy Now</button>' +
+                '<button class="buy-btn" onclick="quickAddToCart(' + product.id + ', event)">Get Quote</button>' +
                 '</div></div>';
         }
 
@@ -1162,7 +1162,7 @@
             
             cart.push({ id: product.id, name: product.name, price: product.price, image: product.image, size: 'M', color: null, cartId: Date.now() });
             updateCart();
-            alert(product.name + ' added to cart! Click Get Quote to order.');
+            alert(product.name + ' added! Click Get Quote to order.');
         }
 
         function updateCart() {
