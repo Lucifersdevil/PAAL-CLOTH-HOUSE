@@ -918,16 +918,32 @@
 
         .mobile-nav a span { display: block; font-size: 1.2rem; margin-bottom: 3px; }
 
-        /* header search icon */
+        /* header search */
         .header-search {
-            cursor: pointer;
-            font-size: 1.2rem;
-            color: var(--theme-bg);
+            display: flex;
+            align-items: center;
             margin-right: 20px;
-            transition: color 0.3s;
         }
-        .header-search:hover {
-            color: var(--terracotta);
+        
+        .header-search input {
+            padding: 8px 15px;
+            border: 1px solid #F9F7F2;
+            border-radius: 25px;
+            background: rgba(249, 247, 242, 0.1);
+            color: #F9F7F2;
+            font-size: 0.9rem;
+            width: 150px;
+            transition: all 0.3s;
+        }
+        
+        .header-search input::placeholder {
+            color: rgba(249, 247, 242, 0.6);
+        }
+        
+        .header-search input:focus {
+            outline: none;
+            background: rgba(249, 247, 242, 0.2);
+            width: 200px;
         }
 
         @media (max-width: 768px) {
@@ -972,8 +988,8 @@
             <a href="#about">About</a>
             <a href="#seen">As Seen On</a>
         </nav>
-        <div class="header-search" onclick="(function(){var el=document.getElementById('searchInput'); if(el){el.scrollIntoView({behavior:'smooth',block:'center'}); el.focus();}})()" title="Search">
-            🔍
+        <div class="header-search">
+            <input type="text" id="searchInput" placeholder="Search..." oninput="filterProducts()">
         </div>
         <div class="cart-btn" onclick="toggleCart()">
             🛒
@@ -1004,21 +1020,6 @@
         <div class="section-header">
             <h2>THE COLLECTION</h2>
             <p>Click hotspots for details · Select size for custom quote</p>
-        </div>
-        
-        <!-- Search & Filter -->
-        <div class="search-filter-container">
-            <div class="search-bar">
-                <input type="text" id="searchInput" placeholder="Search products..." oninput="filterProducts()">
-            </div>
-            <div class="category-filter">
-                <select id="categoryFilter" onchange="filterProducts()">
-                    <option value="">All Categories</option>
-                    <option value="traditional">Traditional</option>
-                    <option value="casual">Casual</option>
-                    <option value="party">Party Wear</option>
-                </select>
-            </div>
         </div>
         
         <!-- Tabs -->
