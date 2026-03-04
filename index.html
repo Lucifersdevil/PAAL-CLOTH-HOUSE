@@ -670,7 +670,27 @@
             font-family: 'Playfair Display', serif;
             font-size: 2rem;
             letter-spacing: 8px;
+            margin-bottom: 20px;
+        }
+
+        .footer-quote-btn {
+            background: #4D1A1A;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
             margin-bottom: 30px;
+            transition: all 0.3s;
+        }
+
+        .footer-quote-btn:hover {
+            background: #6B2D2D;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(77, 26, 26, 0.4);
         }
 
         .social-links {
@@ -1030,12 +1050,16 @@
 
     <footer>
         <div class="footer-logo">PAAL</div>
+        
+        <button class="footer-quote-btn" onclick="document.getElementById('collection').scrollIntoView({behavior: 'smooth'});">Get Quote</button>
+        
         <div class="social-links">
             <a href="admin.html" target="_blank">Admin Panel</a>
             <a href="#">Instagram</a>
             <a href="#">TikTok</a>
             <a href="#">Twitter</a>
         </div>
+        
         <p>&copy; 2026 PAAL CLOTH HOUSE. All rights reserved.</p>
     </footer>
 
@@ -1160,7 +1184,6 @@
                 '<div class="product-info">' +
                 '<div class="product-name">' + product.name + '</div>' +
                 '<div class="product-price">Rs. ' + product.price + '</div>' +
-                '<button class="add-cart-btn" onclick="quickAddToCart(' + product.id + ', event)">Add to Cart</button>' +
                 '</div></div>';
         }
 
