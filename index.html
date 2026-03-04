@@ -627,6 +627,38 @@
             color: white;
         }
 
+        .new-arrivals {
+            padding: 100px 60px;
+            background: var(--theme-bg);
+        }
+
+        .new-arrivals .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .new-arrivals h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .new-arrivals-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        @media (max-width: 1024px) {
+            .new-arrivals-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .new-arrivals-grid { grid-template-columns: 1fr; }
+            .new-arrivals { padding: 50px 20px; }
+        }
+
         footer {
             background: var(--theme-accent);
             color: var(--theme-bg);
@@ -942,10 +974,18 @@
         <!-- Tabs -->
         <div class="tabs-container">
             <button class="tab-btn active" onclick="showTab('all')">All</button>
-            <button class="tab-btn" onclick="showTab('new')">🎀 New Arrivals</button>
+            <button class="tab-btn" onclick="showTab('new')">New Arrivals</button>
         </div>
         
         <div class="products-grid" id="productsGrid"></div>
+    </section>
+
+    <section class="new-arrivals" id="new-arrivals">
+        <div class="section-header">
+            <h2>NEW ARRIVALS</h2>
+            <p>Fresh & Trending Pieces Just For You</p>
+        </div>
+        <div class="new-arrivals-grid" id="newArrivalsGrid"></div>
     </section>
 
     <section class="as-seen" id="seen">
@@ -1114,6 +1154,25 @@
             var html = '';
             for (var i = 0; i < products.length; i++) {
                 html += createProductCard(products[i]);
+            }
+            grid.innerHTML = html;
+        }
+
+        function renderNewArrivals() {
+            var grid = document.getElementById('newArrivalsGrid');
+            if (!grid) {
+                return;
+            }
+            var newProducts = products.filter(function(p) {
+                return p.isNew;
+            });
+            if (newProducts.length === 0) {
+                grid.innerHTML = '<p style="text-align:center;padding:50px;color:#666;">No new arrivals yet.</p>';
+                return;
+            }
+            var html = '';
+            for (var i = 0; i < newProducts.length; i++) {
+                html += createProductCard(newProducts[i]);
             }
             grid.innerHTML = html;
         }
@@ -1335,6 +1394,7 @@
         }
 
         renderProducts();
+        renderNewArrivals();
         renderSocialFeed();
     </script>
 </body>
