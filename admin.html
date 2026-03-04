@@ -345,7 +345,13 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
+        // Supabase Config
+        var SUPABASE_URL = 'https://nmwuwihsoiksdwfxqgrw.supabase.co';
+        var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5td3V3aWhzb2lrc2R3ZnhxZ3J3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2MTQxNjQsImV4cCI6MjA4ODE5MDE2NH0.tHG7F19Ymjz3JOZLLUYEbEnHTrtNWOcdcWNYFqwL1Sk';
+        var supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
         // Products data
         var products = [
             { id: 1, name: "FROK", price: 499, stock: 50, image: "images/FROK.jpg" },
@@ -360,16 +366,25 @@
         var orders = [];
 
         function loadOrders() {
-            // Load from localStorage
-            orders = JSON.parse(localStorage.getItem('paal_quotes') || '[]');
+            // Load from Supabase
+            supabase.from('orders').select('*').order('date', { ascending: false }).then(function(response) {
+                if (response.error) {
+                    console.log('Error loading:', response.error);
+                    // Fallback to localStorage
+                    orders = JSON.parse(localStorage.getItem('paal_quotes') || '[]');
+                } else {
+                    orders = response.data || [];
+                }
+                loadAdminData();
+            });
         }
 
         function adminLogin() {
-            const pwd = document.getElementById('adminPassword').value;
+            var pwd = document.getElementById('adminPassword').value;
             if(pwd === 'PAAL2026') {
                 document.getElementById('loginScreen').classList.add('hidden');
                 document.getElementById('adminPanel').classList.remove('hidden');
-                loadOrders().then(() => loadAdminData());
+                loadOrders();
             } else {
                 alert('Wrong password!');
             }

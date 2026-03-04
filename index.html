@@ -203,7 +203,7 @@
             transform: translateY(-50%);
             width: 40%;
             height: 80%;
-            background: url('images/unnamed (2).jpg');
+            background: url('images/FROK.jpg');
             background-size: cover;
             background-position: center;
             z-index: 0;
@@ -995,6 +995,13 @@
         <a href="#"><span>👤</span>Account</a>
     </nav>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Supabase Config
+        var SUPABASE_URL = 'https://nmwuwihsoiksdwfxqgrw.supabase.co';
+        var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5td3V3aWhzb2lrc2R3ZnhxZ3J3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2MTQxNjQsImV4cCI6MjA4ODE5MDE2NH0.tHG7F19Ymjz3JOZLLUYEbEnHTrtNWOcdcWNYFqwL1Sk';
+        var supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
         console.log('Script loaded!');
 
         var products = [
@@ -1196,14 +1203,34 @@
                 address: address,
                 preferred_contact: contactMethod,
                 message: form.message.value,
-                items: cart,
+                items: JSON.stringify(cart),
                 total: total,
                 date: new Date().toISOString()
             };
             
-            // Save to localStorage
+            // Save to Supabase
+            supabase.from('orders').insert([quoteData]).then(function(response) {
+                if (response.error) {
+                    console.log('Supabase error:', response.error);
+                } else {
+                    console.log('Saved to Supabase!');
+                }
+            });
+            
+            // Also save to localStorage
+            var localData = {
+                quoteId: quoteId,
+                name: name,
+                phone: phone,
+                address: address,
+                preferred_contact: contactMethod,
+                message: form.message.value,
+                items: cart,
+                total: total,
+                date: new Date().toISOString()
+            };
             var quotes = JSON.parse(localStorage.getItem('paal_quotes') || '[]');
-            quotes.push(quoteData);
+            quotes.push(localData);
             localStorage.setItem('paal_quotes', JSON.stringify(quotes));
             
             alert('Quote Submitted! Quote ID: ' + quoteId);
