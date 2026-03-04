@@ -326,6 +326,23 @@
             z-index: 10;
         }
 
+        .buy-btn {
+            background: var(--terracotta);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            width: 100%;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+
+        .buy-btn:hover {
+            background: #a85a3a;
+        }
+
         .product-card {
             background: var(--theme-bg);
             color: var(--theme-accent);
@@ -1064,6 +1081,7 @@
                 '<div class="product-info">' +
                 '<div class="product-name">' + product.name + '</div>' +
                 '<div class="product-price">Rs. ' + product.price + '</div>' +
+                '<button class="buy-btn" onclick="quickAddToCart(' + product.id + ', event)">Buy Now</button>' +
                 '</div></div>';
         }
 
@@ -1129,6 +1147,22 @@
             cart.push({ id: product.id, name: product.name, price: product.price, image: product.image, size: size, color: color, cartId: Date.now() });
             updateCart();
             alert(product.name + ' added to cart!');
+        }
+
+        function quickAddToCart(productId, event) {
+            event.stopPropagation();
+            var product = null;
+            for (var i = 0; i < products.length; i++) {
+                if (products[i].id === productId) {
+                    product = products[i];
+                    break;
+                }
+            }
+            if (!product) return;
+            
+            cart.push({ id: product.id, name: product.name, price: product.price, image: product.image, size: 'M', color: null, cartId: Date.now() });
+            updateCart();
+            alert(product.name + ' added to cart! Click Get Quote to order.');
         }
 
         function updateCart() {
