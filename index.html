@@ -1017,10 +1017,11 @@
         let currentTheme = 'theme-maroon';
 
         function renderProducts() {
-            console.log('Rendering products...', products);
+            console.log('Products:', products);
             const grid = document.getElementById('productsGrid');
             if (!grid) {
                 console.error('productsGrid not found!');
+                alert('Grid not found!');
                 return;
             }
             grid.innerHTML = products.map(product => `
